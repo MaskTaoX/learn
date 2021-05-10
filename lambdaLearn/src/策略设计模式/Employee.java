@@ -2,11 +2,11 @@ package 策略设计模式;
 
 public class Employee {
     private String name;
-    private int age;
-    private int salary;
+    private Integer age;
+    private Integer salary;
 
     public Employee(){}
-    public Employee(String name, int age, int salary) {
+    public Employee(String name, Integer age, Integer salary) {
         this.name = name;
         this.age = age;
         this.salary = salary;
@@ -29,7 +29,7 @@ public class Employee {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
@@ -37,7 +37,7 @@ public class Employee {
         this.age = age;
     }
 
-    public int getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 

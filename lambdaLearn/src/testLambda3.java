@@ -27,11 +27,11 @@ import java.util.function.Supplier;
  * 类::静态方法名
  * 类::实例方法名
  *
+ *     lambda体中调用方法的参数列表和返回值类型 要与 函数式接口的抽象方法的参数列表和返回值类型一致
+ *
  * 构造器引用：
  * ClassName::new
  *
- * 数组引用：
- * Type::new
  */
 public class testLambda3 {
     /**
@@ -64,8 +64,8 @@ public class testLambda3 {
     @Test
     public void test2(){
         Comparator<Integer> com = (x,y)->Integer.compare(x,y);
-
-        Comparator<Integer> com1 = Integer::compare;
+        Comparator<Integer> com1 = Integer::compare;// 1 , 0, -1
+        System.out.println(com.compare(4,3));
     }
 
     /**
@@ -76,8 +76,8 @@ public class testLambda3 {
     public void test3(){
         BiPredicate<String,String> bp=(x,y)->x.equals(y);
         //第一个参数是实例方法调用者 第二个参数是实例方法的参数时 可以使用
-        BiPredicate<String,String > bp1 = String::equals;
-
+        BiPredicate<String,String> bp1 = String::equals;
+        System.out.println(bp1.test("123","123"));
     }
 
     /**

@@ -1,33 +1,15 @@
 import org.junit.Test;
 import 策略设计模式.Employee;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class testOptional {
-
-    //终止操作
     /**
-     * 查找与匹配
-     * allMatch-检查是否匹配所有元素
-     * anyMatch-检查是否至少匹配一个元素
-     * nonematch-是否没有匹配所有元素
-     */
-    /**
-     * 归约
-     * 将流中元素反复结合起来
-     * reduce(起始值，二元操作)
-     * map-reduce操作
+     * optional<T> 是一个容器类 代表一个值存在或者不存在 原来是用null
+     * 现在用此容器类可以更好的表达这个概念 并且避免空指针异常
      */
 
-    /**
-     * 收集
-     * collect-接受一个collector接口的实现
-     * Collectors 工具类 用于产生collect的实例
-     */
     List<Employee> employees= Arrays.asList(
             new Employee("zhang3",36,5000),
             new Employee("zhang4",40,6000),
@@ -36,42 +18,68 @@ public class testOptional {
             new Employee("zhang6",23,9000),
             new Employee("zhang6",21,9000),
             new Employee("zhang6",20,9000));
-
-    List<String> a =Arrays.asList("111","222","333","444","555");
-    List<String> b = Arrays.asList("333","444","555","666","777","888");
+    /*
+    用optional包装 防止空指针异常
+    对于一个返回值 可以有值 可能没有值 用optional 方法灵活处理
+     */
     @Test
     public void test(){
-        List<Integer> list = Arrays.asList(1,2,3,4,5,6,7,8,9);
-        //从0开始加 累加操作
-        Integer sum = list.stream()
-                        .reduce(0,(x,y)->x+y);
+        //创建一个带泛型的optional实例
+        Optional<Employee> op = Optional.of(new Employee());
+        //获取实例
+        op.get();
+        //创建一个空optional实例
+        Optional.empty();
+        //ofNullable(T t) 若t不为null 创建实例 否则返回空实例
+        Employee E =null;
+        Optional<Employee> op1 = Optional.ofNullable(E);
+        //判断是否有值
+        System.out.println(op1.isPresent());
 
+        //orElse(T t) 如果调用容器有值 返回容器中的值 否则返回空实例
+        Employee employee = op.orElse(new Employee("zhan",30,1344));//op有值 返回容器中的值
+        Employee employee1 = op1.orElse(new Employee("zhan",30,1344));//容器中没值 返回默认值
+        System.out.println(employee);
+        System.out.println(employee1);
+
+        //orElseGet(Supplier s)
+        op.orElseGet(()->{
+            int salary=0;
+            salary=employee.getSalary()+employee1.getSalary();
+            return new Employee("sum",20,salary);
+        });
+
+        //map(Function f) 对容器中的值处理 没值返回Optional.empty()
+        Optional<String> str = op.map((e)->e.getName());
+        System.out.println(str.get());
+
+        //flatmap 要求返回对象必须是Optional 进一步防止空指针异常
+        Optional<Integer> integer = op.flatMap((e)->Optional.of(e.getSalary()));
     }
 
+    /*
+    举例
+        man可能有godness  但是godness一定有名字
+     */
     @Test
     public void test1(){
-        List<Integer> l=employees.stream()
-                                  .filter((e)->e.getName().equals("zhang6"))
-                                    .map((e)->e.getAge())
-                                    .collect(Collectors.toList());
-        l.stream().forEach(System.out::println);
-    }
-    @Test
-    public void test2(){
-//        List<String> c = b.stream().filter((x)->!a.contains(x)).collect(Collectors.toList());
-//        c.stream().forEach(System.out::println);
-
-        String[] x=a.stream().toArray(String[]::new);
-        Arrays.stream(x).forEach(System.out::println);
-        System.out.println(x.length);
+        Man man = new Man();
+        String n = getGodnessName(man);
+        String n1 = getGodnessName1(Optional.ofNullable(new NewMan()));
     }
 
-    @Test
-    public void test3(){
-        Set<String> set=employees.stream().map(Employee::getName)
-                        .collect(Collectors.toSet());
-        HashSet<String> hashset = employees.stream().map(Employee::getName)
-                .collect(Collectors.toCollection(HashSet::new));
+    public String getGodnessName(Man man){
+        //return man.getGodnessName().getName();空指针异常
+        if(man!=null){
+            Godness gn = man .getGodness();
+            if(gn!=null){
+                return gn.getName();
+            }
+        }
+        return "默认值";
     }
 
+    public String getGodnessName1(Optional<NewMan> man){
+        return man.orElse(new NewMan()).getGodness().orElse(new Godness("默认值")).getName();
+    }
 }

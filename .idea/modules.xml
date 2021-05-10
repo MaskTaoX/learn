@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Mashibing/Mashibing.iml" filepath="$PROJECT_DIR$/Mashibing/Mashibing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/daimadasai/daimadasai.iml" filepath="$PROJECT_DIR$/daimadasai/daimadasai.iml" />
       <module fileurl="file://$PROJECT_DIR$/lambdaLearn/lambdaLearn.iml" filepath="$PROJECT_DIR$/lambdaLearn/lambdaLearn.iml" />
       <module fileurl="file://$PROJECT_DIR$/learn.iml" filepath="$PROJECT_DIR$/learn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/offer/offer.iml" filepath="$PROJECT_DIR$/offer/offer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testThreadPool/testThreadPool.iml" filepath="$PROJECT_DIR$/testThreadPool/testThreadPool.iml" />
     </modules>
   </component>
 </project>
